@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dip"
+    android:background="#f3f3f3"
+    android:orientation="vertical">
+
+    <com.coco.bottomsheetbehaviordemo.view.MyLinearLayout
+        android:id="@+id/id_sample_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="请输入" />
+
+            <Button
+                android:layout_width="100dip"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="SearchOperationClick"
+                android:text="发送" />
+        </LinearLayout>
+
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.coco.bottomsheetbehaviordemo.view.MyLinearLayout>
+</LinearLayout>
