@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_bottom_sheet_behavior" translatable="false">com.coco.bottomsheetbehaviordemo.behavior.MyCustomBottomSheetBehavior</string>
+</resources>

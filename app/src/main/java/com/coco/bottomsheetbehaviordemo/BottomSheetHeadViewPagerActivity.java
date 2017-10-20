@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.coco.bottomsheetbehaviordemo.behavior.MyCustomBottomSheetBehavior;
 import com.coco.bottomsheetbehaviordemo.fragment.BaseFragmentAdapter;
 import com.coco.bottomsheetbehaviordemo.fragment.ListFragment;
 import com.coco.bottomsheetbehaviordemo.view.MyLinearLayout;
@@ -35,7 +36,7 @@ import java.util.List;
  */
 public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implements View.OnClickListener{
     CoordinatorLayout coordinatorLayout;
-    BottomSheetBehavior<View> behavior;
+    MyCustomBottomSheetBehavior<View> behavior;
     private static final String TAG = BottomSheetHeadViewPagerActivity.class.getSimpleName();
     private View mBottomSheet;
     private MyLinearLayout myLinearLayout;
@@ -85,12 +86,12 @@ public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implemen
         mTabLayout.setupWithViewPager(mViewPager);
 
         //配置bottomSheet
-        behavior = BottomSheetBehavior.from(mBottomSheet);
+        behavior = MyCustomBottomSheetBehavior.from(mBottomSheet);
     }
 
     private void initEvent() {
         //设置监听bottomSheet的状态
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        behavior.setBottomSheetCallback(new MyCustomBottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 Log.i(TAG, "新状态：" + newState);
@@ -136,9 +137,9 @@ public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implemen
     private void swichBottomSheet() {
         int state = behavior.getState();
         if (state == BottomSheetBehavior.STATE_EXPANDED) {
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            behavior.setState(MyCustomBottomSheetBehavior.STATE_COLLAPSED);
         } else {
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            behavior.setState(MyCustomBottomSheetBehavior.STATE_EXPANDED);
         }
     }
 
