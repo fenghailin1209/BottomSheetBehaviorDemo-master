@@ -3,5 +3,6 @@
 
     <dimen name="head_height">50dip</dimen>
 
-    
+    <dimen name="head_viewpager_height">76dip</dimen>
+
 </resources>

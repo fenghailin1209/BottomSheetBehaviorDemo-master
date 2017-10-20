@@ -1,4 +1,4 @@
-package com.coco.bottomsheetbehaviordemo;
+package com.coco.bottomsheetbehaviordemo.utils;
 
 import android.content.Context;
 import android.widget.ImageView;

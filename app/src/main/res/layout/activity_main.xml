@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/design_bottom_sheet">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:background="#e8e8e8"
-            android:orientation="vertical"
-            app:behavior_hideable="false"
-            app:behavior_peekHeight="@dimen/head_height"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:onClick="onClickCommon"
+            android:padding="5dip"
+            android:text="普通底部抽屉" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:onClick="onClickViewPager1"
+            android:padding="5dip"
+            android:text="底部抽屉ViewPage1" />
 
-                <include
-                    layout="@layout/sample_header" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:onClick="onClickViewPager2"
+            android:padding="5dip"
+            android:text="底部抽屉ViewPage2" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+    </LinearLayout>
 
-        </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

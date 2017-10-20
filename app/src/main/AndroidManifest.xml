@@ -23,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".BottomSheetSearchActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".BottomSheetHeadViewPagerActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".BottomSheetHeadViewPagerActivity2"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

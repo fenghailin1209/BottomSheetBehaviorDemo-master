@@ -1,190 +1,37 @@
 package com.coco.bottomsheetbehaviordemo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.coco.bottomsheetbehaviordemo.view.MyLinearLayout;
-import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
-import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
-import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * BottomSheetBehavior可以轻松实现底部动作条功能，底部动作条的引入需要在布局添加app:layout_behavior属性，
- * 并将这个布局作为CoordianatorLayout的子View。这个可以用于一些从下面弹出选项的操作。
- * <p>
- * 方法	用途
- * setPeekHeight	        默认显示后View露头的高度
- * getPeekHeight	        @see setPeekHeight()
- * setHideable	            设置是否可以隐藏，如果为true,表示状态可以为STATE_HIDDEN
- * isHideable	            @see setHideable()
- * setState	                设置状态;设置不同的状态会影响BottomSheetView的显示效果
- * getState	                获取状态
- * setBottomSheetCallback	设置状态改变回调
+ * Created by Administrator on 2017/10/20.
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    CoordinatorLayout coordinatorLayout;
-    RecyclerView recyclerview;
-    List<String> texts;
-    BottomSheetBehavior<View> behavior;
-    private static final String TAG = "MainActivity";
-    private View mBottomSheet;
-    private Banner banner;
-    private MyLinearLayout myLinearLayout;
+
+public class MainActivity extends Activity{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        initView();
-
-        initData();
-
-        setHeaderViewData();
-
-        setRecycleViewData();
-
-        initEvent();
     }
 
-    private void setRecycleViewData() {
-        CommonAdapter<String> commonAdapter = new CommonAdapter<String>(this, R.layout.item, texts) {
-            @Override
-            protected void convert(ViewHolder holder, String s, final int position) {
-                holder.setText(R.id.text, s);
-                holder.getView(R.id.text).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "点击了" + position, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        };
-
-        HeaderAndFooterWrapper mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(commonAdapter);
-        View header = LayoutInflater.from(this).inflate(R.layout.sample_header, (ViewGroup) findViewById(android.R.id.content), false);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                swichBottomSheet();
-            }
-        });
-//        mHeaderAndFooterWrapper.addHeaderView(header);
-
-        recyclerview.setAdapter(mHeaderAndFooterWrapper);
-        mHeaderAndFooterWrapper.notifyDataSetChanged();
-
-        recyclerview.setHasFixedSize(true);
-        recyclerview.setItemAnimator(new DefaultItemAnimator());
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        //配置bottomSheet
-        behavior = BottomSheetBehavior.from(mBottomSheet);
+    public void onClickCommon(View view){
+        jump(BottomSheetSearchActivity.class);
     }
 
-    private void initEvent() {
-        //设置监听bottomSheet的状态
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                Log.i(TAG, "新状态：" + newState);
-                if(newState == 3){
-                    myLinearLayout.setIsChildClick(true);
-                    myLinearLayout.setOnClickListener(null);
-                }else{
-                    myLinearLayout.setIsChildClick(false);
-                    myLinearLayout.setOnClickListener(MainActivity.this);
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.i(TAG, "拖动操作：" + slideOffset);
-            }
-        });
+    public void onClickViewPager1(View view){
+        jump(BottomSheetHeadViewPagerActivity.class);
     }
 
-    private void initData() {
-        texts = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            texts.add("测试 i=" + i);
-        }
+    public void onClickViewPager2(View view){
+        jump(BottomSheetHeadViewPagerActivity2.class);
     }
 
-    private void initView() {
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
-        mBottomSheet = findViewById(R.id.bottom_sheet);
-        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
-    }
-
-    private void setHeaderViewData() {
-        myLinearLayout = (MyLinearLayout) findViewById(R.id.id_sample_header);
-        myLinearLayout.setOnClickListener(this);
-
-        ArrayList images = new ArrayList();
-        images.add("https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1508404544&di=b5be22fdeac3c3941c7492f3b9bc3d33&src=http://pic33.nipic.com/20130907/13534366_092511672176_2.jpg");
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508414632838&di=0e8933bbcc50a86ec2eb7ad5e3d57116&imgtype=0&src=http%3A%2F%2Fpic7.photophoto.cn%2F20080529%2F0034034465128235_b.jpg");
-
-        banner = (Banner) findViewById(R.id.banner);
-        banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Toast.makeText(MainActivity.this, "点击了Banner:" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    //如果你需要考虑更好的体验，可以这么操作
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //开始轮播
-        banner.startAutoPlay();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //结束轮播
-        banner.stopAutoPlay();
-    }
-
-
-    public void SearchOperationClick(View viwe) {
-        Toast.makeText(this, "开始搜索", 0).show();
-    }
-
-    private void swichBottomSheet() {
-        int state = behavior.getState();
-        if (state == BottomSheetBehavior.STATE_EXPANDED) {
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        } else {
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.id_sample_header:
-                swichBottomSheet();
-                break;
-        }
+    private void jump(Class clazz) {
+        Intent intent = new Intent(this,clazz);
+        startActivity(intent);
     }
 }

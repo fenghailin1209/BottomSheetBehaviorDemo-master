@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.coco.bottomsheetbehaviordemo.view.MyLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_sample_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/head_viewpager_height"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/id_illegal_hot_more_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dip"
+            android:background="#00000000"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/id_hot_illegal_drawer_tv"
+                android:layout_width="80dip"
+                android:layout_height="26dip"
+                android:background="@mipmap/ic_hight_illegal_up" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_alignParentBottom="true"
+                android:background="#F1F1F1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/id_left_tv"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="附近"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/id_left_line_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dip"
+                        android:background="@android:color/holo_orange_light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/id_right_tv"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="我的"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/id_right_line_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dip"
+                        android:background="@android:color/holo_orange_light"
+                        android:visibility="invisible" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</com.coco.bottomsheetbehaviordemo.view.MyLinearLayout>
