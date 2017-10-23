@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dip"
+    android:layout_height="wrap_content"
     android:background="#f3f3f3"
     android:orientation="vertical">
 
     <com.coco.bottomsheetbehaviordemo.view.MyLinearLayout
         android:id="@+id/id_sample_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,22 +19,36 @@
             <EditText
                 android:id="@+id/id_search_et"
                 android:layout_width="0dip"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:hint="请输入" />
 
             <Button
                 android:layout_width="100dip"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:onClick="SearchOperationClick"
                 android:text="发送" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/id_content_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="2dip"
+                android:text="节节高高科技和高科技高坑将第几个几个各科更何况共和个坤皓隔日价格个人光和热街坤皓改共和合格高合金钢户人家个人节节高高科技和高科技高坑将第几个几个各科更何况共和个坤皓隔日价格个人光和热街坤皓改共和合格高合金钢户人家个人节节高高科技和高科技高坑将第几个几个各科更何况共和个坤皓隔日价格个人光和热街坤皓改共和合格高合金钢户人家个人结构化额几个给 1111" />
+
+        </LinearLayout>
+
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="100dip" />
     </com.coco.bottomsheetbehaviordemo.view.MyLinearLayout>
 </LinearLayout>

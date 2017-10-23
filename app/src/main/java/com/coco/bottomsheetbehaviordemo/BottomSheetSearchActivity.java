@@ -55,6 +55,7 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
     private MyLinearLayout myLinearLayout;
     private EditText id_search_et;
     private TextView id_shade_tv;
+    private TextView id_content_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +121,16 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 Log.i(TAG, "新状态：" + newState);
-                if (newState == 3) {
+                if (newState == 3) {//打开
+                    id_content_tv.setSingleLine(false);
+
                     id_shade_tv.setVisibility(View.VISIBLE);
 
                     myLinearLayout.setIsChildClick(true);
                     myLinearLayout.setOnClickListener(null);
                 } else {
+                    id_content_tv.setSingleLine(true);
+
                     id_shade_tv.setVisibility(View.GONE);
 
                     myLinearLayout.setIsChildClick(false);
@@ -148,11 +153,12 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
     }
 
     private void initView() {
+
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
         mBottomSheet = findViewById(R.id.bottom_sheet);
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         id_search_et = (EditText) findViewById(R.id.id_search_et);
-
+        id_content_tv = (TextView) findViewById(R.id.id_content_tv);
         id_shade_tv = (TextView) findViewById(R.id.id_shade_tv);
         id_shade_tv.setOnClickListener(new View.OnClickListener() {
             @Override
