@@ -13,7 +13,14 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/design_bottom_sheet">
+        >
+
+        <TextView
+            android:visibility="gone"
+            android:background="#80000000"
+            android:id="@+id/id_shade_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/bottom_sheet"

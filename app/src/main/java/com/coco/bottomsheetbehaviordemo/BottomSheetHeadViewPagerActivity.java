@@ -1,5 +1,6 @@
 package com.coco.bottomsheetbehaviordemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -20,6 +21,8 @@ import com.coco.bottomsheetbehaviordemo.view.MyLinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.coco.bottomsheetbehaviordemo.R.id.id_shade_tv;
 
 /**
  * BottomSheetBehavior可以轻松实现底部动作条功能，底部动作条的引入需要在布局添加app:layout_behavior属性，
@@ -49,6 +52,8 @@ public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implemen
     private TabLayout mTabLayout;
     ViewPager mViewPager;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,7 @@ public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implemen
 
         initEvent();
     }
+
 
     public void textView1OnClick(View view){
         Toast.makeText(this,"textView1  OnClick",0).show();
@@ -108,6 +114,7 @@ public class BottomSheetHeadViewPagerActivity extends AppCompatActivity implemen
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                Log.i(TAG,"--->>>onSlide slideOffset:"+slideOffset);
             }
         });
     }

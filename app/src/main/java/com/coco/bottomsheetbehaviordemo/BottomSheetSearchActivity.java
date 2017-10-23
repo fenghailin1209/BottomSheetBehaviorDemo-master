@@ -1,5 +1,6 @@
 package com.coco.bottomsheetbehaviordemo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -12,9 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coco.bottomsheetbehaviordemo.utils.GlideImageLoader;
+import com.coco.bottomsheetbehaviordemo.utils.KeyBoardUtils;
 import com.coco.bottomsheetbehaviordemo.view.MyLinearLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -24,6 +28,8 @@ import com.zhy.adapter.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.coco.bottomsheetbehaviordemo.R.id.id_hot_illegal_drawer_tv;
 
 /**
  * BottomSheetBehavior可以轻松实现底部动作条功能，底部动作条的引入需要在布局添加app:layout_behavior属性，
@@ -38,7 +44,7 @@ import java.util.List;
  * getState	                获取状态
  * setBottomSheetCallback	设置状态改变回调
  */
-public class BottomSheetSearchActivity extends AppCompatActivity implements View.OnClickListener{
+public class BottomSheetSearchActivity extends AppCompatActivity implements View.OnClickListener {
     CoordinatorLayout coordinatorLayout;
     RecyclerView recyclerview;
     List<String> texts;
@@ -47,6 +53,8 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
     private View mBottomSheet;
     private Banner banner;
     private MyLinearLayout myLinearLayout;
+    private EditText id_search_et;
+    private TextView id_shade_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +72,12 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
         initEvent();
     }
 
-    public void textView1OnClick(View view){
-        Toast.makeText(this,"textView1  OnClick",0).show();
+    public void textView1OnClick(View view) {
+        Toast.makeText(this, "textView1  OnClick", 0).show();
     }
 
-    public void textView10OnClick(View view){
-        Toast.makeText(this,"textView10 OnClick",0).show();
+    public void textView10OnClick(View view) {
+        Toast.makeText(this, "textView10 OnClick", 0).show();
     }
 
     private void setRecycleViewData() {
@@ -112,10 +120,14 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 Log.i(TAG, "新状态：" + newState);
-                if(newState == 3){
+                if (newState == 3) {
+                    id_shade_tv.setVisibility(View.VISIBLE);
+
                     myLinearLayout.setIsChildClick(true);
                     myLinearLayout.setOnClickListener(null);
-                }else{
+                } else {
+                    id_shade_tv.setVisibility(View.GONE);
+
                     myLinearLayout.setIsChildClick(false);
                     myLinearLayout.setOnClickListener(BottomSheetSearchActivity.this);
                 }
@@ -123,7 +135,7 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.i(TAG, "拖动操作：" + slideOffset);
+                int bsHight = bottomSheet.getHeight();
             }
         });
     }
@@ -139,6 +151,17 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
         mBottomSheet = findViewById(R.id.bottom_sheet);
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        id_search_et = (EditText) findViewById(R.id.id_search_et);
+
+        id_shade_tv = (TextView) findViewById(R.id.id_shade_tv);
+        id_shade_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                swichBottomSheet();
+
+                KeyBoardUtils.closeKeybord(id_search_et, BottomSheetSearchActivity.this);
+            }
+        });
     }
 
     private void setHeaderViewData() {
@@ -190,7 +213,7 @@ public class BottomSheetSearchActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.id_sample_header:
                 swichBottomSheet();
                 break;
