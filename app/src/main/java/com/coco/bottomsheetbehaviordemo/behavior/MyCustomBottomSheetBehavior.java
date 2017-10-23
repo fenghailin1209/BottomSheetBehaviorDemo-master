@@ -8,7 +8,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
@@ -153,7 +152,7 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
 
     WeakReference<View> mNestedScrollingChildRef;
 
-    private ArrayList<WeakReference<View>> mNestedScrollingChildRefs;
+    ArrayList<WeakReference<View>> mNestedScrollingChildRefs;
 
     private BottomSheetCallback mCallback;
 
@@ -248,19 +247,20 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
             mViewDragHelper = ViewDragHelper.create(parent, mDragCallback);
         }
         mViewRef = new WeakReference<>(child);
-        mNestedScrollingChildRef = new WeakReference<>(findScrollingChild(child));
-
-        //fhl add 20171020
+        //fhl add
         mNestedScrollingChildRefs = new ArrayList<>();
-//        mNestedScrollingChildRefs.add();
 
+        mNestedScrollingChildRef = new WeakReference<>(findScrollingChild(child));
+        Log.i(TAG,"--->>>mNestedScrollingChildRefs size:"+(mNestedScrollingChildRefs != null ? mNestedScrollingChildRefs.size() : "NULL"));
         return true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(CoordinatorLayout parent, V child, MotionEvent event) {
+        boolean isPointInChildBounds = false;
         if (!child.isShown()) {
             mIgnoreEvents = true;
+            Log.i(TAG,"--->>>!child.isShown()");
             return false;
         }
         int action = MotionEventCompat.getActionMasked(event);
@@ -287,7 +287,8 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
                 int initialX = (int) event.getX();
                 mInitialY = (int) event.getY();
                 View scroll = mNestedScrollingChildRef.get();
-                if (scroll != null && parent.isPointInChildBounds(scroll, initialX, mInitialY)) {
+                isPointInChildBounds = parent.isPointInChildBounds(scroll, initialX, mInitialY);
+                if (scroll != null && isPointInChildBounds) {
                     mActivePointerId = event.getPointerId(event.getActionIndex());
                     mTouchingScrollingChild = true;
                 }
@@ -295,9 +296,10 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
                         !parent.isPointInChildBounds(child, initialX, mInitialY);
                 break;
         }
-        if (!mIgnoreEvents && mViewDragHelper.shouldInterceptTouchEvent(event)) {
-            Log.i(TAG,"--->shouldInterceptTouchEvent");
-//            return true;
+        boolean isShouldInterceptTouchEvent = mViewDragHelper.shouldInterceptTouchEvent(event);
+        Log.i(TAG, "--->>>isShouldInterceptTouchEvent:" + isShouldInterceptTouchEvent + ",mIgnoreEvents:" + mIgnoreEvents);
+        if (!mIgnoreEvents && isShouldInterceptTouchEvent) {
+            //return true;
             //fhl add
             return false;
         }
@@ -305,15 +307,25 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
         // it is not the top most view of its parent. This is not necessary when the touch event is
         // happening over the scrolling content as nested scrolling logic handles that case.
         View scroll = mNestedScrollingChildRef.get();
-        boolean isOnInterceptTouchEvent = action == MotionEvent.ACTION_MOVE && scroll != null &&
-                !mIgnoreEvents && mState != STATE_DRAGGING &&
-                !parent.isPointInChildBounds(scroll, (int) event.getX(), (int) event.getY()) &&
-                Math.abs(mInitialY - event.getY()) > mViewDragHelper.getTouchSlop();
-        boolean b1 = !parent.isPointInChildBounds(scroll, (int) event.getX(), (int) event.getY());
-        Log.i(TAG,"--->x1:"+Math.abs(mInitialY - event.getY())+",x2:"+mViewDragHelper.getTouchSlop());
-        Log.i(TAG, "--->>>isOnInterceptTouchEvent:" + isOnInterceptTouchEvent + ",mIgnoreEvents:" + mIgnoreEvents + ",mState:" + mState + ",b1:" + b1);
-//        return isOnInterceptTouchEvent;
-        //fhl add
+        boolean b1 = !mIgnoreEvents && mState != STATE_DRAGGING;
+        boolean b2 = !parent.isPointInChildBounds(scroll, (int) event.getX(), (int) event.getY());
+//        boolean b2 = haveIsPointInChildBounds(parent,event);
+//        boolean b3 = Math.abs(mInitialY - event.getY()) > mViewDragHelper.getTouchSlop();
+        boolean b3 = false;
+        boolean b4 = b1 && b2 && b3;
+        Log.i(TAG, "--->>>scroll:" + (scroll != null ? "不为空" : "NULL")+",b1:"+b1+",b2:"+b2+",b3:"+b3+",b4:"+b4);
+        return b4;
+    }
+
+    private boolean haveIsPointInChildBounds(CoordinatorLayout parent,MotionEvent event){
+        boolean b2 = false;
+        for(WeakReference<View> scroll : mNestedScrollingChildRefs){
+            b2 = !parent.isPointInChildBounds(scroll.get(), (int) event.getX(), (int) event.getY());
+            if(b2){
+                b2 = true;
+                return b2;
+            }
+        }
         return false;
     }
 
@@ -357,9 +369,7 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx,
                                   int dy, int[] consumed) {
         View scrollingChild = mNestedScrollingChildRef.get();
-        boolean isScrollingChild = target != scrollingChild;
-        Log.i(TAG, "--->>>isScrollingChild:" + isScrollingChild);
-        if (isScrollingChild) {
+        if (target != scrollingChild) {
             return;
         }
         int currentTop = child.getTop();
@@ -595,6 +605,7 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
         if (mVelocityTracker != null) {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
+            Log.i(TAG,"--->>>VelocityTracker reset");
         }
     }
 
@@ -612,6 +623,8 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
 
     private View findScrollingChild(View view) {
         if (view instanceof NestedScrollingChild) {
+            Log.i(TAG,"--->>>findScrollingChild 1");
+            mNestedScrollingChildRefs.add(new WeakReference<View>(view));
             return view;
         }
         if (view instanceof ViewGroup) {
@@ -619,6 +632,8 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
             for (int i = 0, count = group.getChildCount(); i < count; i++) {
                 View scrollingChild = findScrollingChild(group.getChildAt(i));
                 if (scrollingChild != null) {
+                    mNestedScrollingChildRefs.add(new WeakReference<View>(view));
+                    Log.i(TAG,"--->>>findScrollingChild 2");
                     return scrollingChild;
                 }
             }
@@ -812,10 +827,10 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
     }
 
     /**
-     * A utility function to get the {@link BottomSheetBehavior} associated with the {@code view}.
+     * A utility function to get the {@link MyCustomBottomSheetBehavior} associated with the {@code view}.
      *
-     * @param view The {@link View} with {@link BottomSheetBehavior}.
-     * @return The {@link BottomSheetBehavior} associated with the {@code view}.
+     * @param view The {@link View} with {@link MyCustomBottomSheetBehavior}.
+     * @return The {@link MyCustomBottomSheetBehavior} associated with the {@code view}.
      */
     @SuppressWarnings("unchecked")
     public static <V extends View> MyCustomBottomSheetBehavior<V> from(V view) {
@@ -827,7 +842,7 @@ public class MyCustomBottomSheetBehavior<V extends View> extends CoordinatorLayo
                 .getBehavior();
         if (!(behavior instanceof MyCustomBottomSheetBehavior)) {
             throw new IllegalArgumentException(
-                    "The view is not associated with BottomSheetBehavior");
+                    "The view is not associated with MyCustomBottomSheetBehavior");
         }
         return (MyCustomBottomSheetBehavior<V>) behavior;
     }
